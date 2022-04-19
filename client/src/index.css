@@ -1,0 +1,8 @@
+body {
+  text-align: center;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'IBM Plex Sans', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
