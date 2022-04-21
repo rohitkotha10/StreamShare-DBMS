@@ -1,5 +1,15 @@
 import React from 'react'
+
 import { Navigate } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom';
+
+import {
+  Box,
+  Button,
+  Container,
+  Typography
+} from '@mui/material';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 import UserLayout from './user/UserLayout'
 import UserInfo from './user/ProfileInfo'
@@ -18,11 +28,13 @@ import WorkerInfo from './worker/ProfileInfo'
 
 import LoginPage from './auth/LoginPage'
 import RegisterPage from './auth/RegisterPage'
-import VerificationPage from './auth/VerificationPage'
 
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import { Box, Button, Container, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import Navbar from './dashboard/Navbar'
+import CreateRoom from './dashboard/CreateRoom'
+import JoinRoom from './dashboard/JoinRoom'
+import MyRooms from './dashboard/MyRooms'
+import Profile from './dashboard/Profile'
+import Expenses from './dashboard/Expenses'
 
 export const routes = [
   {
@@ -34,8 +46,30 @@ export const routes = [
     element: <RegisterPage />
   },
   {
-    path: 'verify',
-    element: <VerificationPage />
+    path: 'dashboard',
+    element: <Navbar />,
+    children: [
+      {
+        path: '',
+        element: <MyRooms />
+      },
+      {
+        path: 'createroom',
+        element: <CreateRoom />
+      },
+      {
+        path: 'joinroom',
+        element: <JoinRoom />
+      },
+      {
+        path: 'profile',
+        element: <Profile />
+      },
+      {
+        path: 'expenses',
+        element: <Expenses />
+      }
+    ]
   },
   {
     path: 'admin',
