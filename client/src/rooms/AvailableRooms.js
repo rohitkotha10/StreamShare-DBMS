@@ -1,4 +1,6 @@
-import PropTypes from 'prop-types';
+import * as React from 'react'
+import { useState, useEffect } from 'react';
+
 import {
   Table,
   TableBody,
@@ -7,8 +9,12 @@ import {
   TableRow,
 } from '@mui/material';
 
-export const WorkersTable = (props) => {
-  const { workers } = props;
+import { JoinDialog } from '../components/join-dialog'
+
+export const AvailableRooms = (props) => {
+  const { email, rooms } = props;
+  const roomss = [{ name: 'A', admin: 'b', platform: 'c', plan: 'd', comment: 's', account: 'we', password: 'good' },
+  { name: 'Aa', admin: 'ba', platform: 'ca', plan: 'da', comment: 'sa', account: 'weare', password: 'notgood' }]
 
   return (
     <div>
@@ -17,45 +23,46 @@ export const WorkersTable = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>
-              WorkerID
+              Room Name
             </TableCell>
             <TableCell>
-              Email
+              Admin
             </TableCell>
             <TableCell>
-              Name
+              Platform
             </TableCell>
             <TableCell>
-              Experience
+              Plan
             </TableCell>
             <TableCell>
-              Rating
+              Action
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {workers.map((worker) => {
+          {roomss.map((room) => {
             return (
-              <TableRow key={worker.id}>
+              <TableRow key={room.name}>
                 <TableCell>
-                  {worker.id}
+                  {room.name}
                 </TableCell>
 
                 <TableCell>
-                  {worker.email}
+                  {room.admin}
                 </TableCell>
 
                 <TableCell>
-                  {worker.name}
+                  {room.platform}
                 </TableCell>
 
                 <TableCell>
-                  {worker.workExperience} hours
+                  {room.plan}
                 </TableCell>
 
                 <TableCell>
-                  {worker.rating}
+                  {<JoinDialog room={room} />}
                 </TableCell>
+
               </TableRow>
             );
           })}
@@ -63,8 +70,4 @@ export const WorkersTable = (props) => {
       </Table>
     </div>
   );
-};
-
-WorkersTable.propTypes = {
-  workers: PropTypes.array.isRequired
 };

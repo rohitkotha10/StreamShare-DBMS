@@ -1,102 +1,39 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+import { useState, useEffect } from 'react';
+
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles((theme) => ({
-  select: {
-    '&:before': {
-      borderColor: 'white',
-      background: "#373b3d",
-    },
-    '&:after': {
-      borderColor: 'white',
-      background: "#373b3d",
-    },
-    '&:not(.Mui-disabled):hover::before': {
-      borderColor: 'white',
-      background: "#373b3d",
-    },
-  },
-  icon: {
-    fill: 'white',
-  },
-  root: {
-    "& .MuiFilledInput-root": {
-      background: "#373b3d"
-    },
+import {
+  Button,
+  Typography,
+  Box,
+  TextField,
+  Paper
+} from '@mui/material';
 
-  },
-}));
+import image from "../image/bg2.jpeg";
 
-export default function RegisterPage() {
-
-  const paperStyle = { padding: '50px 20px', width: 600, margin: "20px auto" }
-  const [firstName, setFirstName] = React.useState('')
-  const [lastName, setLastName] = React.useState('')
-  const [address, setAddress] = React.useState('')
-  const [mobileNumber, setMobileNumber] = React.useState('')
-  const [carNumber, setCarNumber] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [passwordc, setPasswordc] = React.useState('')
-  const [authenticated, setAuth] = React.useState(5)
+export default function LoginPage() {
+  const [name, setName] = useState('')
+  const [age, setAge] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [authenticated, setAuth] = useState(5)
 
   let navigate = useNavigate();
-
-  const styletheme = createTheme({
-    typography: {
-
-      fontFamily: [
-        'Chilanka',
-        'cursive',
-      ].join(','),
-    },
-    palette: {
-      primary: {
-        light: '#757ce8',
-        main: '#3f50b5',
-        dark: '#002884',
-        contrastText: '#fff',
-      },
-      secondary: {
-
-        dark: '#1d1f20',
-        main: '#303641',
-        background: '#373b3d',
-        contrastText: '#ffffff',
-      },
-      neutral: {
-        main: '#ffffff',
-      },
-    },
-
-  })
-  const classes = useStyles();
-
 
   const handleClick = (e) => {
     e.preventDefault()
 
-    if (firstName.length == 0 ||
-      lastName.length == 0 ||
-      address.length == 0 ||
-      mobileNumber.length == 0 ||
-      carNumber.length == 0 ||
-      email.length == 0 ||
-      password.length == 0 ||
-      password != passwordc) {
-      setAuth(4)
+    const regdetails = { name, age, email, password }
+    if (name.length == 0 || age.length == 0 || email.length == 0 || password.length == 0) {
+      setAuth(4);
       return;
     }
-
-    const userdetails = { firstName, lastName, address, mobileNumber, carNumber, email, password }
-    console.log(userdetails)
-    // fetch("http://localhost:8080/register/input", {
+    console.log(regdetails)
+    setAuth(0);
+    // fetch("http://localhost:8080/login/normallogin", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json"
@@ -109,111 +46,83 @@ export default function RegisterPage() {
     //   })
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (authenticated == 0) {
-      navigate('/verify');
+      const em = email;
+      console.log(em);
+      navigate("/", { state: { email: email } });
     }
   }, [authenticated]);
 
   return (
-    <div>
-      <ThemeProvider theme={styletheme}>
+    <Box
+      style={{
+        backgroundImage: `url(${image})`,
+      }}
+      sx={{
+        width: "100hh",
+        height: "100vh",
+      }} pt={20}
+    >
+      <Paper sx={{ p: 3, mx: 'auto', width: '25%', height: 'auto', borderRadius: 3 }}>
+        <Paper elevation={3}
+          sx={{ p: 2, background: 'radial-gradient(#99ebff, #00ccff)', mt: -5, mb: 5, borderRadius: 1 }}
+        >
+          <Typography fontSize={28} fontWeight={600} color='black'>
+            Join us today
+          </Typography>
+          <Typography fontSize={16} fontWeight={500} color='black'>
+            Enter your email and password to register
+          </Typography>
+        </Paper>
+
+        {!(authenticated == 0 || authenticated == 5) && (
+          <Typography color="#eb6359">
+            Something Wrong! Please Try Again.
+          </Typography>
+        )}
+
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { m: 1, width: '35ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField label="Name" variant="standard"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <TextField label="Age" variant="standard" type="number"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+          <TextField label="Email" variant="standard"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField label="Password" variant="standard"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Box>
+
         <Box
           sx={{
-            width: "100hh",
-            height: "100vh",
-            backgroundColor: 'secondary.main',
-          }} pt={20}>
-
-
-          <Box sx={{ justifyContent: 'center' }}>
-
-            <div>
-
-              <Box sx={{ backgroundColor: 'secondary.dark', width: 580, height: 462, borderRadius: 3, boxShadow: 20 }} ml={50} >
-
-                <Box>
-                  <Typography fontSize={42} fontWeight={400} gutterBottom color='secondary.contrastText'>
-                    Registration Form
-                  </Typography>
-                </Box>
-
-                {!(authenticated == 0 || authenticated == 5) && (
-                  <Typography color="#eb6359">
-                    Something Wrong! Please Try Again.
-                  </Typography>
-                )}
-
-                <Box
-                  component="form"
-                  sx={{
-                    '& > :not(style)': { m: 1, width: '25ch' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField id="outlined-basic" label="First Name" variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-
-                  <TextField id="outlined-basic" label="Last Name" variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-
-                  <TextField id="outlined-basic" label="Address" variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-
-                  <TextField id="outlined-basic" label="Mobile No." variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={mobileNumber}
-                    onChange={(e) => setMobileNumber(e.target.value)}
-                  />
-
-                  <TextField id="outlined-basic" label="Car Number" variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={carNumber}
-                    onChange={(e) => setCarNumber(e.target.value)}
-                  />
-
-                  <TextField id="outlined-basic" label="Email" variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-
-                  <TextField id="outlined-password-input" label="Password" type="password" variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
-
-                  <TextField id="outlined-password-input" label="Confirm Password" type="password" variant="filled" className={classes.root} color="neutral" InputProps={{ style: { color: "white" } }}
-                    value={passwordc}
-                    onChange={(e) => setPasswordc(e.target.value)} />
-
-                  {!(password == passwordc) && (
-                    <Typography color="#eb6359">
-                      Password does not Match!.
-                    </Typography>
-                  )}
-
-                </Box>
-                <Box
-                  sx={{
-                    '& > :not(style)': { m: 2, width: '12ch' },
-                  }}>
-                  <Button variant="contained" onClick={handleClick} color="secondary">
-                    register
-                  </Button>
-                </Box>
-
-              </Box>
-            </div>
-          </Box>
-
+            '& > :not(style)': { m: 2, width: '12ch' },
+          }}>
+          <Button variant="contained" onClick={handleClick}>
+            REGISTER
+          </Button>
         </Box>
-      </ThemeProvider>
-    </div>
+
+        <Link to="/" style={{ textDecoration: 'none', color: "black" }}>
+          <Button>
+            Sign in here
+          </Button>
+        </Link>
+      </Paper>
+    </Box>
   );
 }
-
-

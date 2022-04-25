@@ -1,39 +1,53 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
-import { Link as RouterLink, matchPath } from 'react-router-dom';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Avatar, Box, Button, Toolbar, Typography } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import { Link as RouterLink, matchPath } from 'react-router-dom';
+
+import { styled } from '@mui/material/styles';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Toolbar,
+  Typography
+} from '@mui/material';
+
+import CreateIcon from '@mui/icons-material/Create';
 import PersonIcon from '@mui/icons-material/Person';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import EngineeringIcon from '@mui/icons-material/Engineering';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 
 
 const items = [
   {
-    href: '/admin',
-    icon: ShoppingCartIcon,
-    label: 'Orders'
+    href: '/dashboard',
+    icon: MeetingRoomIcon,
+    label: 'MyRooms'
   },
   {
-    href: '/admin/parking',
-    icon: DirectionsCarIcon,
-    label: 'Parking'
+    href: '/dashboard/createroom',
+    icon: CreateIcon,
+    label: 'Create'
   },
   {
-    href: '/admin/users',
+    href: '/dashboard/joinroom',
+    icon: SubscriptionsIcon,
+    label: 'Join'
+  },
+  {
+    href: '/dashboard/profile',
     icon: PersonIcon,
-    label: 'Users'
-  },
-  {
-    href: '/admin/workers',
-    icon: EngineeringIcon,
-    label: 'Workers'
+    label: 'Profile'
   }
-
 ];
 
 const DashboardLayoutRoot = styled('div')(
@@ -67,7 +81,7 @@ const DashboardLayoutContent = styled('div')({
 
 export default function Layout() {
 
-  const [page, setPage] = React.useState("")
+  const [page, setPage] = useState("")
 
   const location = useLocation();
   const email = location.state.email;
@@ -75,7 +89,7 @@ export default function Layout() {
 
   let navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     navigate(page, { state: { email: email, type: type } })
   }, [page])
 
@@ -84,7 +98,7 @@ export default function Layout() {
   return (
     <DashboardLayoutRoot>
       <AppBar
-      
+
         elevation={0}
         sx={{ backgroundColor: '#1e212a' }}
       >

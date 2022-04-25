@@ -1,8 +1,7 @@
 body {
   text-align: center;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'IBM Plex Sans', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  font-family: 'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

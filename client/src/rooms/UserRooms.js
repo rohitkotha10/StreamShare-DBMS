@@ -1,4 +1,6 @@
-import PropTypes from 'prop-types';
+import * as React from 'react'
+import { useState, useEffect } from 'react';
+
 import {
   Table,
   TableBody,
@@ -7,8 +9,12 @@ import {
   TableRow,
 } from '@mui/material';
 
-export const UsersTable = (props) => {
-  const { users } = props;
+import { UserDialog } from '../components/user-dialog'
+
+export const UserRooms = (props) => {
+  const { email, rooms } = props;
+  const roomss = [{ name: 'A', admin: 'b', platform: 'c', plan: 'd', comment: 's', account: 'we', password: 'good' },
+  { name: 'Aa', admin: 'ba', platform: 'ca', plan: 'da', comment: 'sa', account: 'weare', password: 'notgood' }]
 
   return (
     <div>
@@ -17,59 +23,60 @@ export const UsersTable = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>
-              UserID
+              Room Name
             </TableCell>
             <TableCell>
-              Email
+              Admin
             </TableCell>
             <TableCell>
-              First Name
+              Platform
             </TableCell>
             <TableCell>
-              Last Name
+              Plan
             </TableCell>
             <TableCell>
-              Address
+              Account
             </TableCell>
             <TableCell>
-              Mobile Number
+              Password
             </TableCell>
             <TableCell>
-              Car Number
+              Action
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => {
+          {roomss.map((room) => {
             return (
-              <TableRow key={user.id}>
+              <TableRow key={room.name}>
                 <TableCell>
-                  {user.id}
+                  {room.name}
                 </TableCell>
 
                 <TableCell>
-                  {user.email}
+                  {room.admin}
                 </TableCell>
 
                 <TableCell>
-                  {user.firstName}
+                  {room.platform}
                 </TableCell>
 
                 <TableCell>
-                  {user.lastName}
+                  {room.plan}
                 </TableCell>
 
                 <TableCell>
-                  {user.address}
+                  {room.account}
                 </TableCell>
 
                 <TableCell>
-                  {user.mobileNumber}
+                  {room.password}
                 </TableCell>
 
                 <TableCell>
-                  {user.carNumber}
+                  {<UserDialog room={room} />}
                 </TableCell>
+
               </TableRow>
             );
           })}
@@ -77,8 +84,4 @@ export const UsersTable = (props) => {
       </Table>
     </div>
   );
-};
-
-UsersTable.propTypes = {
-  users: PropTypes.array.isRequired
 };

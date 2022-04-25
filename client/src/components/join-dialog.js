@@ -1,38 +1,39 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import MenuItem from '@mui/material/MenuItem';
+import { useState, useEffect } from 'react';
+
 import {
   Grid,
   TextField,
-  Typography
+  Typography,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  MenuItem
 } from '@mui/material';
 
-export const AddBut = (props) => {
-  const { Orderarr } = props;
-  const [open, setOpen] = React.useState(false);
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState('sm');
-  const [location, setLocation] = React.useState('');
-  const [authenticated, setAuth] = React.useState(5)
-  const [id, setId] = React.useState();
+export const JoinDialog = (props) => {
+  const { room } = props;
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [authenticated, setAuth] = useState(5)
+  const [payer, setPayer] = useState();
+  const types = ['PAYING', 'NON-PAYING'];
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
-    if (id == null) {
+    if (message.length == 0 || payer.length == 0) {
       setAuth(4)
       return;
     }
 
-    const details = { id }
+    const details = { message, payer, room }
     console.log(details)
 
-    // fetch("http://localhost:8080/myorders/getpayment", {
+    // fetch("http://localhost:8080/myorders/addcomment", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json"
@@ -45,7 +46,7 @@ export const AddBut = (props) => {
     //   })
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (authenticated == 0) {
       setOpen(false)
       setAuth(5);
@@ -60,7 +61,7 @@ export const AddBut = (props) => {
         size="large"
         variant="contained"
       >
-        Complete Order
+        Send Request
       </Button>
 
       <Dialog
@@ -69,7 +70,7 @@ export const AddBut = (props) => {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <DialogTitle variant="h4">Order Done</DialogTitle>
+        <DialogTitle variant="h4">Review</DialogTitle>
         {!(authenticated == 0 || authenticated == 5) && (
           <Typography color="#eb6359">
             Something Wrong, Please Try Again
@@ -84,30 +85,43 @@ export const AddBut = (props) => {
             justifyContent="center"
             sx={{ maxWidth: 420 }}
           >
+
+            <Grid
+              item
+              xs={12}
+            >
+              <TextField
+
+                fullWidth
+                label="Message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                variant="outlined"
+              />
+            </Grid>
             <Grid
               item
               xs={12}
             >
               <TextField
                 fullWidth
-                label="Check In"
+                label="User Type"
                 variant="outlined"
                 select
-                variant="outlined"
-                onChange={(e) => setId(e.target.value)}
+                onChange={(e) => setPayer(e.target.value)}
               >
-                {Orderarr.map((orders) => (
+                {types.map((type) => (
                   <MenuItem
-                    key={orders.id}
-                    value={orders.id}
+                    key={type}
+                    value={type}
                   >
-                    {orders.id}
+                    {type}
                   </MenuItem>
                 ))}
               </TextField>
             </Grid>
           </Grid>
-          <Button onClick={handleClose}>Complete</Button>
+          <Button onClick={handleClose}>Send Join Request</Button>
         </DialogContent>
       </Dialog>
     </React.Fragment>

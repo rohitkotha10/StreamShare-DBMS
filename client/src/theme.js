@@ -100,7 +100,7 @@ export const theme = createTheme({
     borderRadius: 6
   },
   typography: {
-    fontFamily: 'IBM Plex Sans, sans-serif',
+    fontFamily: 'Roboto, sans-serif',
     h1: {
       fontSize: 48,
       fontWeight: 600,
