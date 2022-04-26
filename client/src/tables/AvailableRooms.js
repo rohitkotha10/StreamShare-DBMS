@@ -9,13 +9,27 @@ import {
   TableRow,
 } from '@mui/material';
 
-import { UserDialog } from '../components/user-dialog'
+import { JoinDialog } from '../dialogs/join-dialog'
 
-export const UserRooms = (props) => {
-  const { email, rooms } = props;
-  const roomss = [{ name: 'A', admin: 'b', platform: 'c', plan: 'd', comment: 's', account: 'we', password: 'good' },
-  { name: 'Aa', admin: 'ba', platform: 'ca', plan: 'da', comment: 'sa', account: 'weare', password: 'notgood' }]
+export const AvailableRooms = (props) => {
+  const { email } = props;
+  const [rooms, setRooms] = useState([]);
 
+  useEffect(() => {
+    const userdetails = { user_email: email }
+    console.log(userdetails)
+    fetch("http://localhost:5000/room/available", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userdetails)
+    }).then(data => data.json())
+      .then((data) => {
+        setRooms(data);
+        console.log(data);
+      })
+  }, [])
   return (
     <div>
       <Table
@@ -35,46 +49,32 @@ export const UserRooms = (props) => {
               Plan
             </TableCell>
             <TableCell>
-              Account
-            </TableCell>
-            <TableCell>
-              Password
-            </TableCell>
-            <TableCell>
               Action
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {roomss.map((room) => {
+          {rooms.map((room) => {
             return (
-              <TableRow key={room.name}>
+              <TableRow key={room.ROOM_NAME}>
                 <TableCell>
-                  {room.name}
+                  {room.ROOM_NAME}
                 </TableCell>
 
                 <TableCell>
-                  {room.admin}
+                  {room.ADMIN_EMAIL}
                 </TableCell>
 
                 <TableCell>
-                  {room.platform}
+                  {room.PLATFORM_NAME}
                 </TableCell>
 
                 <TableCell>
-                  {room.plan}
+                  {room.PLAN_TYPE}
                 </TableCell>
 
                 <TableCell>
-                  {room.account}
-                </TableCell>
-
-                <TableCell>
-                  {room.password}
-                </TableCell>
-
-                <TableCell>
-                  {<UserDialog room={room} />}
+                  {<JoinDialog room={room} />}
                 </TableCell>
 
               </TableRow>

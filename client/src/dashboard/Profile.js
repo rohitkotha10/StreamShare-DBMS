@@ -18,22 +18,22 @@ export default function ProfileInfo() {
   let navigate = useNavigate();
   const location = useLocation();
   const email = location.state.email;
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState([{ USER_EMAIL: null, USER_NAME: null, AGE: null }]);
 
-  // useEffect(() => {
-  //   const toSend = { email }
-  //   fetch("http://localhost:8080/user/getinfo", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(toSend)
-  //   }).then(data => data.json())
-  //     .then((data) => {
-  //       setUser(data);
-  //       //console.log(data);
-  //     })
-  // }, []);
+  useEffect(() => {
+    const toSend = { user_email: email }
+    fetch("http://localhost:5000/dash/profile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(toSend)
+    }).then(data => data.json())
+      .then((data) => {
+        setUser(data);
+        console.log(data);
+      })
+  }, []);
 
   return (
     <Box
@@ -105,7 +105,7 @@ export default function ProfileInfo() {
 
                       fullWidth
                       label="Name"
-                      value={user.name}
+                      value={user[0].USER_NAME}
                       variant="outlined"
                       InputProps={{
                         readOnly: true,
@@ -122,7 +122,7 @@ export default function ProfileInfo() {
 
                       fullWidth
                       label="Age"
-                      value={user.age}
+                      value={user[0].AGE}
                       variant="outlined"
                       InputProps={{
                         readOnly: true,
@@ -139,7 +139,7 @@ export default function ProfileInfo() {
 
                       fullWidth
                       label="Email"
-                      value={user.email}
+                      value={user[0].USER_EMAIL}
                       variant="outlined"
                       InputProps={{
                         readOnly: true,

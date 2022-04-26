@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import {
   Grid,
@@ -19,53 +20,62 @@ export const PlanDialog = (props) => {
   const [plan, setPlan] = useState('');
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
-  const [plans, setPlans] = useState([])
+  const [plans, setPlans] = useState([{ PLAN_TYPE: null }])
+
+  let navigate = useNavigate();
 
   const handleClickOpen = () => {
-    // fetch("http://localhost:8080/myorders/getpayment", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(details)
-    // }).then(data => data.json())
-    //   .then((data) => {
-    //     setAuth(data);
-    //     console.log(data);
-    //   })
-    if (admin.length == 0 || roomName.length == 0 || capacity.length == 0 || platform.length == 0) {
+    if (admin.length === 0 || roomName.length === 0 || capacity.length === 0 || platform.length === 0) {
       setAuth(4);
       return;
     }
-    setOpen(true);
+    const toSend = { platform_name: platform }
+    fetch("http://localhost:5000/platform/plans", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(toSend)
+    }).then(data => data.json())
+      .then((data) => {
+        setPlans(data);
+        console.log(data);
+        if (data.length > 0)
+          setOpen(true);
+      })
   };
 
   const handleClose = () => {
-    if (plan.length == 0 || account.length == 0 || password.length == 0) {
+    if (plan.length === 0 || account.length === 0 || password.length === 0) {
       setAuth(3)
       return;
     }
 
-    const details = { roomName, capacity, platform, admin, plan, account, password }
-    console.log(details)
+    const toSend = {
+      room_name: roomName, admin_email: admin,
+      capacity: capacity, member_cnt: 1, platform_name: platform, plan_type: plan,
+      stream_account: account, stream_password: password
+    }
+    console.log(toSend);
 
-    // fetch("http://localhost:8080/myorders/getpayment", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(details)
-    // }).then(data => data.json())
-    //   .then((data) => {
-    //     setAuth(data);
-    //     console.log(data);
-    //   })
+    fetch("http://localhost:5000/room/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(toSend)
+    }).then(data => data.json())
+      .then((data) => {
+        setAuth(data);
+        console.log(data);
+      })
   };
 
   useEffect(() => {
-    if (authenticated == 0) {
+    if (authenticated === 0) {
       setOpen(false)
       setAuth(5)
+      navigate("/dashboard", { state: { email: admin } });
     }
   }, [authenticated]);
 
@@ -79,7 +89,7 @@ export const PlanDialog = (props) => {
       >
         Enter Details
       </Button>
-      {!(authenticated == 0 || authenticated == 5) && (
+      {!(authenticated === 0 || authenticated === 5) && (
         <Typography color="#eb6359">
           Something Wrong, Please Try Again
         </Typography>
@@ -92,9 +102,9 @@ export const PlanDialog = (props) => {
         onClose={() => setOpen(false)}
       >
         <DialogTitle variant="h4">Plan Details</DialogTitle>
-        {!(authenticated == 0 || authenticated == 5 || authenticated == 4) && (
+        {!(authenticated === 0 || authenticated === 5 || authenticated === 4) && (
           <Typography color="#eb6359">
-            Something Wrong, Please Try Again
+            Duplicate Room Name or Empty Field. Please Try Again!
           </Typography>
         )}
         <DialogContent alignitems="center">
@@ -119,10 +129,10 @@ export const PlanDialog = (props) => {
               >
                 {plans.map((plan) => (
                   <MenuItem
-                    key={plan}
-                    value={plan}
+                    key={plan.PLAN_TYPE}
+                    value={plan.PLAN_TYPE}
                   >
-                    {plan}
+                    {plan.PLAN_TYPE}
                   </MenuItem>
                 ))}
               </TextField>

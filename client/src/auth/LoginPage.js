@@ -23,31 +23,27 @@ export default function LoginPage() {
 
   const handleClick = (e) => {
     e.preventDefault();
-
-    const userdetails = { email, password };
-    if (email.length == 0 || password.length == 0) {
+    if (email.length === 0 || password.length === 0) {
       setAuth(4);
       return;
     }
+    const userdetails = { user_email: email, user_password: password };
     console.log(userdetails);
-    setAuth(0);
-    // fetch("http://localhost:8080/login/normallogin", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(userdetails)
-    // }).then(data => data.json())
-    //   .then((data) => {
-    //     setAuth(data);
-    //     console.log(data);
-    //   })
+    fetch("http://localhost:5000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userdetails)
+    }).then(data => data.json())
+      .then((data) => {
+        setAuth(data);
+        console.log(data);
+      })
   }
 
   useEffect(() => {
-    if (authenticated == 0) {
-      const em = email;
-      console.log(em);
+    if (authenticated === 0) {
       navigate("dashboard", { state: { email: email } });
     }
   }, [authenticated]);
@@ -71,7 +67,7 @@ export default function LoginPage() {
           </Typography>
         </Paper>
 
-        {!(authenticated == 0 || authenticated == 5) && (
+        {!(authenticated === 0 || authenticated === 5) && (
           <Typography color="#eb6359">
             Something Wrong! Please Try Again.
           </Typography>

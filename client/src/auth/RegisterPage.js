@@ -26,30 +26,27 @@ export default function LoginPage() {
   const handleClick = (e) => {
     e.preventDefault()
 
-    const regdetails = { name, age, email, password }
-    if (name.length == 0 || age.length == 0 || email.length == 0 || password.length == 0) {
+    if (name.length === 0 || age.length === 0 || email.length === 0 || password.length === 0) {
       setAuth(4);
       return;
     }
-    console.log(regdetails)
-    setAuth(0);
-    // fetch("http://localhost:8080/login/normallogin", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(userdetails)
-    // }).then(data => data.json())
-    //   .then((data) => {
-    //     setAuth(data);
-    //     console.log(data);
-    //   })
+    const userdetails = { user_email: email, user_password: password, user_name: name, age: age };
+    console.log(userdetails);
+    fetch("http://localhost:5000/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userdetails)
+    }).then(data => data.json())
+      .then((data) => {
+        setAuth(data);
+        console.log(data);
+      })
   }
 
   useEffect(() => {
-    if (authenticated == 0) {
-      const em = email;
-      console.log(em);
+    if (authenticated === 0) {
       navigate("/", { state: { email: email } });
     }
   }, [authenticated]);
@@ -76,7 +73,7 @@ export default function LoginPage() {
           </Typography>
         </Paper>
 
-        {!(authenticated == 0 || authenticated == 5) && (
+        {!(authenticated === 0 || authenticated === 5) && (
           <Typography color="#eb6359">
             Something Wrong! Please Try Again.
           </Typography>

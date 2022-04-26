@@ -9,9 +9,9 @@ import {
   TableRow,
 } from '@mui/material';
 
-import { JoinDialog } from '../components/join-dialog'
+import { UserDialog } from './UserMembers'
 
-export const AvailableRooms = (props) => {
+export const UserRooms = (props) => {
   const { email, rooms } = props;
   const roomss = [{ name: 'A', admin: 'b', platform: 'c', plan: 'd', comment: 's', account: 'we', password: 'good' },
   { name: 'Aa', admin: 'ba', platform: 'ca', plan: 'da', comment: 'sa', account: 'weare', password: 'notgood' }]
@@ -33,6 +33,12 @@ export const AvailableRooms = (props) => {
             </TableCell>
             <TableCell>
               Plan
+            </TableCell>
+            <TableCell>
+              Account
+            </TableCell>
+            <TableCell>
+              Password
             </TableCell>
             <TableCell>
               Action
@@ -60,7 +66,15 @@ export const AvailableRooms = (props) => {
                 </TableCell>
 
                 <TableCell>
-                  {<JoinDialog room={room} />}
+                  {room.account}
+                </TableCell>
+
+                <TableCell>
+                  {room.password}
+                </TableCell>
+
+                <TableCell>
+                  {<UserDialog room={room} />}
                 </TableCell>
 
               </TableRow>

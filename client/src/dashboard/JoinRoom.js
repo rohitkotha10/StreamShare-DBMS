@@ -9,30 +9,12 @@ import {
   Typography
 } from '@mui/material';
 
-import { AvailableRooms } from '../rooms/AvailableRooms';
+import { AvailableRooms } from '../tables/AvailableRooms';
 
 export default function JoinRoom() {
   let navigate = useNavigate();
   const location = useLocation();
   const email = location.state.email;
-
-  const [rooms, setRooms] = useState([]);
-
-  // useEffect(() => {
-  //   const userdetails = { email }
-  //   //console.log(userdetails)
-  //   fetch("http://localhost:8080/user/getorders", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(userdetails)
-  //   }).then(data => data.json())
-  //     .then((data) => {
-  //       setOrders(data);
-  //       //console.log(data);
-  //     })
-  // }, [])
 
   return (
 
@@ -60,7 +42,7 @@ export default function JoinRoom() {
           <Box sx={{ flexGrow: 1 }} />
         </Box>
         <Card variant="outlined">
-          <AvailableRooms email={email} rooms={rooms} />
+          <AvailableRooms email={email} />
           <Divider />
         </Card>
       </Container>

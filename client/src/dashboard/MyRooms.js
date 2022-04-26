@@ -10,8 +10,8 @@ import {
   Typography
 } from '@mui/material';
 
-import { AdminRooms } from '../rooms/AdminRooms';
-import { UserRooms } from '../rooms/UserRooms';
+import { AdminRooms } from '../tables/AdminRooms';
+import { UserRooms } from '../tables/UserRooms';
 
 export default function JoinRoom() {
   let navigate = useNavigate();

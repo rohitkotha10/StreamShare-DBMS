@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react'
 
 import {
   Table,
@@ -11,15 +12,20 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  IconButton
+  IconButton,
+  Box
 } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 
-export const AdminDialog = (props) => {
+import { PaymentDialog } from '../dialogs/payment-dialog'
+import { LeaveDialog } from '../dialogs/leave-dialog'
+
+export const UserDialog = (props) => {
   const { room } = props;
-  const roomss = [{ name: 'A', admin: 'b', platform: 'c', plan: 'd', comment: 's', account: 'we', password: 'good' },
-  { name: 'Aa', admin: 'ba', platform: 'ca', plan: 'da', comment: 'sa', account: 'weare', password: 'notgood' }]
+  const [users, setUsers] = useState([]);
+  const userss = [{ email: 'A', name: 'b', age: 'c', type: 'd' },
+  { email: 'A', name: 'b', age: 'c', type: 'd' }]
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -33,7 +39,7 @@ export const AdminDialog = (props) => {
   return (
     <div>
       <Button onClick={handleClickOpen}>
-        Manage Room
+        View Room
       </Button>
       <Dialog
         fullScreen
@@ -53,74 +59,57 @@ export const AdminDialog = (props) => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {'Room: '} {room.name}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              View Requests
-            </Button>
-            <Button color="inherit" onClick={handleClose}>
-              Delete Room
-            </Button>
           </Toolbar>
         </AppBar>
+
         <div>
+          <Box
+            sx={{ p: 1 }}
+          >
+            <PaymentDialog roomName={room.name} />
+          </Box>
+          <Box
+            sx={{ p: 1 }}
+          >
+            <LeaveDialog room={room} />
+          </Box>
           <Table
             sortdirection='desc'>
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Room Name
+                  User Email
                 </TableCell>
                 <TableCell>
-                  Admin
+                  Name
                 </TableCell>
                 <TableCell>
-                  Platform
+                  Age
                 </TableCell>
                 <TableCell>
-                  Plan
-                </TableCell>
-                <TableCell>
-                  Account
-                </TableCell>
-                <TableCell>
-                  Password
-                </TableCell>
-                <TableCell>
-                  Action
+                  User Type
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {roomss.map((room) => {
+              {userss.map((user) => {
                 return (
-                  <TableRow key={room.name}>
+                  <TableRow key={user.name}>
                     <TableCell>
-                      {room.name}
+                      {user.email}
                     </TableCell>
 
                     <TableCell>
-                      {room.admin}
+                      {user.name}
                     </TableCell>
 
                     <TableCell>
-                      {room.platform}
+                      {user.age}
                     </TableCell>
 
                     <TableCell>
-                      {room.plan}
+                      {user.type}
                     </TableCell>
-
-                    <TableCell>
-                      {room.account}
-                    </TableCell>
-
-                    <TableCell>
-                      {room.password}
-                    </TableCell>
-
-                    <TableCell>
-                      <Button>Remove</Button>
-                    </TableCell>
-
                   </TableRow>
                 );
               })}

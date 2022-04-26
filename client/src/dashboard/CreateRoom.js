@@ -13,7 +13,7 @@ import {
   MenuItem
 } from '@mui/material';
 
-import { PlanDialog } from '../components/select-plan';
+import { PlanDialog } from '../dialogs/create-dialog';
 
 export default function CreateRoom() {
   let navigate = useNavigate();
@@ -22,23 +22,18 @@ export default function CreateRoom() {
   const [roomName, setRoomName] = useState('');
   const [capacity, setCapacity] = useState('');
   const [platform, setPlatform] = useState('');
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState([{ PLATFORM_NAME: null }]);
   const caps = [5, 10, 15, 20, 25, 30];
 
-  // useEffect(() => {
-  //   const toSend = { roomName, capacity, platform, plan, account, password }
-  //   fetch("http://localhost:8080/user/getinfo", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(toSend)
-  //   }).then(data => data.json())
-  //     .then((data) => {
-  //       setUser(data);
-  //       //console.log(data);
-  //     })
-  // }, []);
+  useEffect(() => {
+    fetch("http://localhost:5000/platform/names", {
+      method: "GET",
+    }).then(data => data.json())
+      .then((data) => {
+        setOptions(data);
+        console.log(data);
+      })
+  }, []);
 
   return (
     <Box
@@ -131,10 +126,10 @@ export default function CreateRoom() {
                     >
                       {options.map((plat) => (
                         <MenuItem
-                          key={plat}
-                          value={plat}
+                          key={plat.PLATFORM_NAME}
+                          value={plat.PLATFORM_NAME}
                         >
-                          {plat}
+                          {plat.PLATFORM_NAME}
                         </MenuItem>
                       ))}
                     </TextField>

@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles'
 
 export const theme = createTheme({
-  components: {
+  dialogs: {
     MuiButton: {
       styleOverrides: {
         sizeLarge: {

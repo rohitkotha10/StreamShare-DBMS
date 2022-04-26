@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@mui/material';
 
-import { AdminDialog } from '../components/admin-dialog'
+import { AdminDialog } from './AdminMembers'
 
 export const AdminRooms = (props) => {
   const { email, rooms } = props;
