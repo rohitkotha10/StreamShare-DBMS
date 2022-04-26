@@ -1,28 +1,24 @@
-import React from 'react'
+import * as React from 'react';
+
 import { Navigate } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom';
 
-import UserLayout from './user/UserLayout'
-import UserInfo from './user/ProfileInfo'
-import UserBooking from './user/Booking'
-import UserOrders from './user/Orders'
-
-import AdminLayout from './admin/AdminLayout'
-import AdminOrders from './admin/Orders'
-import AdminUsers from './admin/Users'
-import AdminWorkers from './admin/Workers'
-import AdminParking from './admin/ParkingSpots'
-
-import WorkerLayout from './worker/WorkerLayout'
-import WorkerOrders from './worker/Orders'
-import WorkerInfo from './worker/ProfileInfo'
+import {
+  Box,
+  Button,
+  Container,
+  Typography
+} from '@mui/material';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 import LoginPage from './auth/LoginPage'
 import RegisterPage from './auth/RegisterPage'
-import VerificationPage from './auth/VerificationPage'
 
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import { Box, Button, Container, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import Navbar from './dashboard/Navbar'
+import CreateRoom from './dashboard/CreateRoom'
+import JoinRoom from './dashboard/JoinRoom'
+import MyRooms from './dashboard/MyRooms'
+import Profile from './dashboard/Profile'
 
 export const routes = [
   {
@@ -34,60 +30,24 @@ export const routes = [
     element: <RegisterPage />
   },
   {
-    path: 'verify',
-    element: <VerificationPage />
-  },
-  {
-    path: 'admin',
-    element: <AdminLayout />,
+    path: 'dashboard',
+    element: <Navbar />,
     children: [
       {
         path: '',
-        element: <AdminOrders />
+        element: <MyRooms />
       },
       {
-        path: 'parking',
-        element: <AdminParking />
+        path: 'createroom',
+        element: <CreateRoom />
       },
       {
-        path: 'users',
-        element: <AdminUsers />
+        path: 'joinroom',
+        element: <JoinRoom />
       },
       {
-        path: 'workers',
-        element: <AdminWorkers />
-      }
-    ]
-  },
-  {
-    path: 'user',
-    element: <UserLayout />,
-    children: [
-      {
-        path: '',
-        element: <UserOrders />
-      },
-      {
-        path: 'booking',
-        element: <UserBooking />
-      },
-      {
-        path: 'info',
-        element: <UserInfo />
-      }
-    ]
-  },
-  {
-    path: 'worker',
-    element: <WorkerLayout />,
-    children: [
-      {
-        path: '',
-        element: <WorkerOrders />
-      },
-      {
-        path: 'info',
-        element: <WorkerInfo />
+        path: 'profile',
+        element: <Profile />
       }
     ]
   },
