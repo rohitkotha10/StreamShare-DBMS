@@ -15,7 +15,5 @@ Frontend: react and material-ui
   - `npm install`
   - `npm start`
 
-Open a new tab and view the web app at `port 3000`
-
 
 
