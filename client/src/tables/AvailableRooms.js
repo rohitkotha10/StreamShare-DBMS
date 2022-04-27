@@ -30,25 +30,25 @@ export const AvailableRooms = (props) => {
         console.log(data);
       })
   }, [])
+
   return (
     <div>
-      <Table
-        sortdirection='desc'>
+      <Table sortdirection='asc'>
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell align='center'>
               Room Name
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Admin
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Platform
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Plan
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Action
             </TableCell>
           </TableRow>
@@ -57,24 +57,24 @@ export const AvailableRooms = (props) => {
           {rooms.map((room) => {
             return (
               <TableRow key={room.ROOM_NAME}>
-                <TableCell>
+                <TableCell align='center'>
                   {room.ROOM_NAME}
                 </TableCell>
 
-                <TableCell>
+                <TableCell align='center'>
                   {room.ADMIN_EMAIL}
                 </TableCell>
 
-                <TableCell>
+                <TableCell align='center'>
                   {room.PLATFORM_NAME}
                 </TableCell>
 
-                <TableCell>
+                <TableCell align='center'>
                   {room.PLAN_TYPE}
                 </TableCell>
 
-                <TableCell>
-                  {<JoinDialog room={room} />}
+                <TableCell align='center'>
+                  <JoinDialog room={room.ROOM_NAME} email={email} />
                 </TableCell>
 
               </TableRow>

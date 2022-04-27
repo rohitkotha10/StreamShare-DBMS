@@ -5,8 +5,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   Box,
-  Button,
-  Card, Container, Divider,
+  Card,
+  Container,
+  Divider,
   Typography
 } from '@mui/material';
 
@@ -63,7 +64,7 @@ export default function JoinRoom() {
           <Box sx={{ flexGrow: 1 }} />
         </Box>
         <Card variant="outlined">
-          <AdminRooms email={email} rooms={roomsAdmin} />
+          <AdminRooms email={email} />
           <Divider />
         </Card>
       </Container>
@@ -86,7 +87,7 @@ export default function JoinRoom() {
           <Box sx={{ flexGrow: 1 }} />
         </Box>
         <Card variant="outlined">
-          <UserRooms email={email} rooms={roomsUser} />
+          <UserRooms email={email} />
           <Divider />
         </Card>
       </Container>

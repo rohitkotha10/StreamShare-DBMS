@@ -25,14 +25,25 @@ import { RemoveDialog } from '../dialogs/remove-dialog'
 
 
 export const AdminDialog = (props) => {
-  const { room } = props;
+  const { email, room } = props;
   const [users, setUsers] = useState([]);
-  const userss = [{ email: 'A', name: 'b', age: 'c', type: 'd' },
-  { email: 'A', name: 'b', age: 'c', type: 'd' }];
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    const toSend = { room_name: room }
+    fetch("http://localhost:5000/room/members", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(toSend)
+    }).then(data => data.json())
+      .then((data) => {
+        setUsers(data);
+        console.log(data);
+        if (data.length > 0)
+          setOpen(true);
+      })
   };
 
   const handleClose = () => {
@@ -60,7 +71,7 @@ export const AdminDialog = (props) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              {'Room: '} {room.name}
+              {'Room: '} {room}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -69,61 +80,61 @@ export const AdminDialog = (props) => {
           <Box
             sx={{ p: 1 }}
           >
-            <PaymentDialog roomName={room.name} />
+            <PaymentDialog email={email} room={room} />
           </Box>
           <Box
             sx={{ p: 1 }}
           >
-            <RequestsDialog room={room} />
+            <RequestsDialog email={email} room={room} />
           </Box>
           <Box
             sx={{ p: 1 }}
           >
-            <DeleteDialog room={room} />
+            <DeleteDialog email={email} room={room} />
           </Box>
-          <Table
-            sortdirection='desc'>
+          <Table sortdirection='asc'>
             <TableHead>
               <TableRow>
-                <TableCell>
+                <TableCell align='center'>
                   User Email
                 </TableCell>
-                <TableCell>
+                <TableCell align='center'>
                   Name
                 </TableCell>
-                <TableCell>
+                <TableCell align='center'>
                   Age
                 </TableCell>
-                <TableCell>
+                <TableCell align='center'>
                   User Type
                 </TableCell>
-                <TableCell>
+                <TableCell align='center'>
                   Action
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {userss.map((user) => {
+              {users.map((user) => {
                 return (
-                  <TableRow key={user.name}>
-                    <TableCell>
-                      {user.email}
+                  <TableRow key={user.USER_EMAIL}>
+                    <TableCell align='center'>
+                      {user.USER_EMAIL}
                     </TableCell>
 
-                    <TableCell>
-                      {user.name}
+                    <TableCell align='center'>
+                      {user.USER_NAME}
                     </TableCell>
 
-                    <TableCell>
-                      {user.age}
+                    <TableCell align='center'>
+                      {user.AGE}
                     </TableCell>
 
-                    <TableCell>
-                      {user.type}
+                    <TableCell align='center'>
+                      {user.USER_TYPE === 1 ? 'PAYING' : 'NON-PAYING'}
                     </TableCell>
 
-                    <TableCell>
-                      <RemoveDialog room={room} user={user.email} />
+                    <TableCell align='center'>
+                      {user.USER_EMAIL === email ? "ADMIN" :
+                        <RemoveDialog email={user.USER_EMAIL} room={room} />}
                     </TableCell>
 
                   </TableRow>

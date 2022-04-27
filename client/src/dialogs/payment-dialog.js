@@ -13,35 +13,38 @@ import {
 } from '@mui/material';
 
 export const PaymentDialog = (props) => {
-  const { roomName } = props;
+  const { email, room } = props;
   const [open, setOpen] = useState(false);
   const [authenticated, setAuth] = useState(5)
+  const [price, setPrice] = useState();
+  const [cnt, setCnt] = useState();
 
   const handleClickOpen = () => {
-    // fetch("http://localhost:8080/myorders/getpayment", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(details)
-    // }).then(data => data.json())
-    //   .then((data) => {
-    //     setAuth(data);
-    //     console.log(data);
-    //   })
-    if (roomName.length === 0) {
-      setAuth(4);
-      return;
-    }
     setOpen(true);
+    const details = { room_name: room };
+    fetch("http://localhost:5000/room/payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(details)
+    }).then(data => data.json())
+      .then((data) => {
+        console.log(data);
+        setPrice(data[0].PLAN_PRICE);
+      })
+    fetch("http://localhost:5000/room/paymembers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(details)
+    }).then(data => data.json())
+      .then((data) => {
+        console.log(data);
+        setCnt(data[0].CNT);
+      })
   };
-
-  useEffect(() => {
-    if (authenticated === 0) {
-      setOpen(false)
-      setAuth(5)
-    }
-  }, [authenticated]);
 
   return (
     <React.Fragment>
@@ -53,40 +56,18 @@ export const PaymentDialog = (props) => {
       >
         View Payment Details
       </Button>
-      {!(authenticated === 0 || authenticated === 5) && (
-        <Typography color="#eb6359">
-          Something Wrong, Please Try Again
-        </Typography>
-      )}
-
       <Dialog
         fullWidth={true}
-        maxWidth="md"
+        maxWidth="sm"
         open={open}
         onClose={() => setOpen(false)}
       >
         <DialogTitle variant="h4">Payment Details</DialogTitle>
-        {!(authenticated === 0 || authenticated === 5) && (
-          <Typography color="#eb6359">
-            Something Wrong, Please Try Again
-          </Typography>
-        )}
         <DialogContent alignitems="center">
-          <br />
-          <Grid
-            container
-            spacing={2}
-            alignitems="center"
-            justifyContent="center"
-            sx={{ maxWidth: 420 }}
-          >
-            <Grid
-              item
-              xs={12}
-            >
-              <Typography>GOOD</Typography>
-            </Grid>
-          </Grid>
+          <Typography>Plan Price: {price} Rupees</Typography>
+          <Typography>Number of Paying Members: {cnt}</Typography>
+          <Typography>Cost per month for each paying member is </Typography>
+          <Typography>{(price / cnt).toPrecision(3)} Rupees</Typography>
         </DialogContent>
       </Dialog>
     </React.Fragment>

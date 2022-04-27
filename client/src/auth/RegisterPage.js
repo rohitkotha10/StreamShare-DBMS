@@ -16,7 +16,7 @@ import image from "../image/bg2.jpeg";
 
 export default function LoginPage() {
   const [name, setName] = useState('')
-  const [age, setAge] = useState('')
+  const [age, setAge] = useState(18)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [authenticated, setAuth] = useState(5)
@@ -93,6 +93,11 @@ export default function LoginPage() {
           />
           <TextField label="Age" variant="standard" type="number"
             value={age}
+            InputProps={{
+              inputProps: {
+                max: 100, min: 5
+              }
+            }}
             onChange={(e) => setAge(e.target.value)}
           />
           <TextField label="Email" variant="standard"

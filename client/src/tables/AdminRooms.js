@@ -12,69 +12,84 @@ import {
 import { AdminDialog } from './AdminMembers'
 
 export const AdminRooms = (props) => {
-  const { email, rooms } = props;
-  const roomss = [{ name: 'A', admin: 'b', platform: 'c', plan: 'd', comment: 's', account: 'we', password: 'good' },
-  { name: 'Aa', admin: 'ba', platform: 'ca', plan: 'da', comment: 'sa', account: 'weare', password: 'notgood' }]
+  const { email } = props;
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    const userdetails = { user_email: email }
+    console.log(userdetails)
+    fetch("http://localhost:5000/room/admin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userdetails)
+    }).then(data => data.json())
+      .then((data) => {
+        setRooms(data);
+        console.log(data);
+      })
+  }, [])
 
   return (
     <div>
-      <Table
-        sortdirection='desc'>
+      <Table sortdirection='asc'>
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell align='center'>
               Room Name
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Admin
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Platform
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Plan
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Account
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Password
             </TableCell>
-            <TableCell>
+            <TableCell align='center'>
               Action
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {roomss.map((room) => {
+          {rooms.map((room) => {
             return (
-              <TableRow key={room.name}>
-                <TableCell>
-                  {room.name}
+              <TableRow key={room.ROOM_NAME}>
+
+                <TableCell align='center'>
+                  {room.ROOM_NAME}
                 </TableCell>
 
-                <TableCell>
-                  {room.admin}
+                <TableCell align='center'>
+                  {room.ADMIN_EMAIL}
                 </TableCell>
 
-                <TableCell>
-                  {room.platform}
+                <TableCell align='center'>
+                  {room.PLATFORM_NAME}
                 </TableCell>
 
-                <TableCell>
-                  {room.plan}
+                <TableCell align='center'>
+                  {room.PLAN_TYPE}
                 </TableCell>
 
-                <TableCell>
-                  {room.account}
+                <TableCell align='center'>
+                  {room.STREAM_ACCOUNT}
                 </TableCell>
 
-                <TableCell>
-                  {room.password}
+                <TableCell align='center'>
+                  {room.STREAM_PASSWORD}
                 </TableCell>
 
-                <TableCell>
-                  {<AdminDialog room={room} />}
+                <TableCell align='center'>
+                  <AdminDialog email={email} room={room.ROOM_NAME} />
                 </TableCell>
 
               </TableRow>
