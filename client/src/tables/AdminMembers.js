@@ -134,7 +134,7 @@ export const AdminDialog = (props) => {
 
                     <TableCell align='center'>
                       {user.USER_EMAIL === email ? "ADMIN" :
-                        <RemoveDialog email={user.USER_EMAIL} room={room} />}
+                        <RemoveDialog admin={email} email={user.USER_EMAIL} room={room} />}
                     </TableCell>
 
                   </TableRow>

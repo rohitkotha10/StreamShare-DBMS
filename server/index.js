@@ -371,8 +371,10 @@ app.post("/request/response", (req, res) => {
       return;
     }
   })
-  if (req.body.response === 0)
+  if (req.body.response === 0) {
+    res.send("0");
     return;
+  }
   let upd1 = `INSERT INTO USER_ROOMS 
   VALUES('${req.body.user_email}', '${req.body.room_name}', ${req.body.user_type});`
   connection.query(upd1, (err, rows) => {

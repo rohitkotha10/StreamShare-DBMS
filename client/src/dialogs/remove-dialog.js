@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 export const RemoveDialog = (props) => {
-  const { email, room } = props;
+  const { admin, email, room } = props;
   const [open, setOpen] = useState(false);
   const [authenticated, setAuth] = useState(5);
 
@@ -40,7 +40,7 @@ export const RemoveDialog = (props) => {
     if (authenticated === 0) {
       setOpen(false)
       setAuth(5)
-      navigate("/dashboard/profile", { state: { email: email } });
+      navigate("/dashboard/profile", { state: { email: admin } });
     }
   }, [authenticated]);
 
