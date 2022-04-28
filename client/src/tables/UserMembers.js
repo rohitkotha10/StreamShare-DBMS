@@ -77,7 +77,7 @@ export const UserDialog = (props) => {
           <Box
             sx={{ p: 1 }}
           >
-            <PaymentDialog email={email} room={room.name} />
+            <PaymentDialog email={email} room={room} />
           </Box>
           <Box
             sx={{ p: 1 }}
